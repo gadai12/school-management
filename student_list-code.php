@@ -25,8 +25,8 @@ class studentListCode
       $crud = new Crud($this->con);
       $result= $crud->readAll(
         $this->baseTable,
-        "s.id, s.rollno, s.fname, s.lname, std.standard_name,d.dept_name , s.created_at, s.updated_at",
-        "LEFT JOIN standards AS std ON s.standard = std.id LEFT JOIN  department AS d ON s.dept_id = d.id ",
+        $this->baseFields,
+        $this->baseJoin,
         "s.status = 1 AND s.standard=$stdid"
       );
 
