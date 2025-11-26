@@ -7,6 +7,8 @@ header('Content-Type: application/json');
 class studentListCode
 {
   private $con;
+  private $crud;
+
   private $baseTable = "students AS s";
     private $baseFields = "s.id, s.rollno, s.fname, s.lname, s.standard, std.standard_name, s.dept_id, d.dept_name, s.created_at, s.updated_at";
     private $baseJoin  = "LEFT JOIN standards AS std ON s.standard = std.id 
@@ -16,14 +18,14 @@ class studentListCode
   {
     $db = new Database();
     $this->con = $db->con;
+    $this->crud = new Crud($this->con); 
 
   }
   //method to get all student
   public function getAllStudents($stdid)
   {
     if ($stdid > 0) {
-      $crud = new Crud($this->con);
-      $result= $crud->readAll(
+      $result= $this->crud->readAll(
         $this->baseTable,
         $this->baseFields,
         $this->baseJoin,
@@ -31,8 +33,7 @@ class studentListCode
       );
 
     } else {
-      $crud = new Crud($this->con);
-      $result= $crud->readAll(
+      $result= $this->crud->readAll(
         $this->baseTable,
         $this->baseFields,
         $this->baseJoin,
@@ -49,8 +50,7 @@ class studentListCode
   
   public function viewSingleStudent($id)
   {
-    $crud = new Crud($this->con);
-    $result = $crud->readAll(
+    $result = $this->crud->readAll(
       $this->baseTable,
         $this->baseFields,
         $this->baseJoin,
@@ -65,8 +65,7 @@ class studentListCode
   // method for delete student 
   public function deleteStudent($id)
   {
-    $crud = new Crud($this->con);
-    $result = $crud->update(
+    $result = $this->crud->update(
       "students",
       "status='0'",
       "id=$id"
@@ -96,9 +95,7 @@ class studentListCode
           'message' => ' user not added! roll no alredy exist in this standard'
         ];
       } else {
-        // $aq = "INSERT INTO students (rollno,fname,lname,standard) VALUES ('$rollno','$fname','$lname','$standard')";
-        $crud = new Crud($this->con);
-        $result = $crud->create(
+        $result = $this->crud->create(
           "students",
           "rollno,fname,lname,standard,dept_id",
           "'$rollno','$fname','$lname','$standard','$department'"
