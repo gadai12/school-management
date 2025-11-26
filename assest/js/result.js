@@ -9,7 +9,7 @@ $(document).ready(function () {
         info: true,
         pageLength: 10,
         ajax: {
-            url: 'resultListCode.php.php',
+            url: 'resultListCode.php',
             type: 'POST',
             dataSrc: '',
         },
@@ -54,7 +54,7 @@ $(document).ready(function () {
         const Id = $(this).data('id');
         const view = "view";
         $.ajax({
-            url: 'resultListCode.php.php',
+            url: 'resultListCode.php',
             method: 'POST',
             data: { id: Id, view: view },
             dataType: "json",
@@ -78,7 +78,7 @@ $(document).ready(function () {
         $('#confirmModal').modal('show');
         $('#delete').on('click', function () {
             $.ajax({
-                url: 'resultListCode.php.php',
+                url: 'resultListCode.php',
                 method: 'POST',
                 data: { id: Id, del: del },
                 success: function (response) {
@@ -149,7 +149,7 @@ $(document).ready(function () {
             var addformData = new FormData(this);
             addformData.append('add', 'add');
             $.ajax({
-                url: 'resultListCode.php.php',
+                url: 'resultListCode.php',
                 method: 'POST',
                 data: addformData,
                 processData: false,
@@ -187,7 +187,7 @@ $(document).ready(function () {
         const Id = $(this).data('id');
         const view = "view";
         $.ajax({
-            url: 'resultListCode.php.php',
+            url: 'resultListCode.php',
             method: 'POST',
             data: { id: Id, view: view },
             success: function (response) {
