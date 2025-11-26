@@ -33,9 +33,9 @@ class studentListCode
     } else {
       $crud = new Crud($this->con);
       $result= $crud->readAll(
-        "students AS s",
-        "s.id, s.rollno, s.fname, s.lname, std.standard_name,d.dept_name  ,s.created_at, s.updated_at",
-        "LEFT JOIN standards AS std ON s.standard = std.id LEFT JOIN  department AS d ON s.dept_id = d.id ",
+        $this->baseTable,
+        $this->baseFields,
+        $this->baseJoin,
         "s.status = 1"
       );
     }
@@ -51,10 +51,10 @@ class studentListCode
   {
     $crud = new Crud($this->con);
     $result = $crud->readAll(
-      "students As s",
-      "s.id, s.rollno, s.fname, s.lname, s.standard, std.standard_name,s.dept_id,d.dept_name ,s.created_at, s.updated_at",
-      "LEFT JOIN standards AS std ON s.standard = std.id LEFT JOIN  department AS d ON s.dept_id = d.id ",
-      "s.id=$id"
+      $this->baseTable,
+        $this->baseFields,
+        $this->baseJoin,
+        "s.id=$id"
     );
     if ($result->num_rows > 0) {
       return $result->fetch_assoc();  // return one row
