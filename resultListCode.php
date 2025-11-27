@@ -7,6 +7,9 @@ header('Content-Type: application/json');
 
 class resultListCode
 {
+     private $baseTable = "result AS r";
+    private $baseFields = "r.id as r_id,s.id as s_id,s.fname,d.id as d_id,d.dept_name,std.id as std_id,std.standard_name,r.cgpa,r.created_at,r.updated_at";
+    private $baseJoin  = "LEFT JOIN students AS s ON r.stud_id=s.id LEFT JOIN department AS d ON r.dept_id=d.id LEFT JOIN standards AS std ON r.stand_id=std.id";
     private $con;
     public function __construct()
     {
@@ -19,9 +22,9 @@ class resultListCode
 
         $crud = new Crud($this->con);
         $result = $crud->readAll(
-            "result AS r",
-            "r.id as r_id,s.id as s_id,s.fname,d.id as d_id,d.dept_name,std.id as std_id,std.standard_name,r.cgpa,r.created_at,r.updated_at",
-            "LEFT JOIN students AS s ON r.stud_id=s.id LEFT JOIN department AS d ON r.dept_id=d.id LEFT JOIN standards AS std ON r.stand_id=std.id",
+            $this->baseTable,
+            $this->baseFields,
+            $this->baseJoin,
             "r.status = 1"
 
         );
@@ -36,9 +39,9 @@ class resultListCode
     {
         $crud = new Crud($this->con);
         $result = $crud->readAll(
-            "result AS r",
-            "r.id as r_id,s.id as s_id,s.fname,d.id as d_id,d.dept_name,std.id as std_id,std.standard_name,r.cgpa,r.created_at,r.updated_at",
-            "LEFT JOIN students AS s ON r.stud_id=s.id LEFT JOIN department AS d ON r.dept_id=d.id LEFT JOIN standards AS std ON r.stand_id=std.id",
+            $this->baseTable,
+            $this->baseFields,
+            $this->baseJoin,
             "r.id=$id"
 
         );
