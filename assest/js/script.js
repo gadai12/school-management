@@ -9,7 +9,7 @@ $(document).ready(function () {
         info: true,
         pageLength: 10,
         ajax: {
-            url: 'student_list-code.php',
+            url: 'studentListCode.php',
             type: 'POST',
             data: function (d) {
                 d.stdid = $('select[name="filtterstd"]').val();  // Pass the selected standard to PHP
@@ -59,7 +59,7 @@ $('#addmodal').modal('show');
         const Id = $(this).data('id');
         const view = "view";
         $.ajax({
-            url: 'student_list-code.php',
+            url: 'studentListCode.php',
             method: 'POST',
             data: { id: Id, view: view },
             dataType: "json",
@@ -85,7 +85,7 @@ $('#addmodal').modal('show');
         $('#confirmModal').modal('show');
         $('#delete').on('click', function () {
             $.ajax({
-                url: 'student_list-code.php',
+                url: 'studentListCode.php',
                 method: 'POST',
                 data: { id: Id, del: del },
                 success: function (response) {
@@ -148,7 +148,7 @@ $('#addmodal').modal('show');
             var addformData = new FormData(this);
             addformData.append('add', 'add');
             $.ajax({
-                url: 'student_list-code.php',
+                url: 'studentListCode.php',
                 method: 'POST',
                 data: addformData,
                 processData: false,
@@ -186,7 +186,7 @@ $('#addmodal').modal('show');
         const Id = $(this).data('id');
         const view = "view";
         $.ajax({
-            url: 'student_list-code.php',
+            url: 'studentListCode.php',
             method: 'POST',
             data: { id: Id, view: view },
             success: function (response) {

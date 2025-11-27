@@ -127,7 +127,7 @@ $(document).ready(function () {
         let sid = $(this).val();
          const view = "view";
         $.ajax({
-            url: 'student_list-code.php',
+            url: 'studentListCode.php',
             method: 'POST',
             data: { id: sid, view: view },
             dataType: "json",
