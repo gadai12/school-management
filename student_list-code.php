@@ -7,30 +7,36 @@ header('Content-Type: application/json');
 class studentListCode
 {
   private $con;
+  private $crud;
+
+  private $baseTable = "students AS s";
+    private $baseFields = "s.id, s.rollno, s.fname, s.lname, s.standard, std.standard_name, s.dept_id, d.dept_name, s.created_at, s.updated_at";
+    private $baseJoin  = "LEFT JOIN standards AS std ON s.standard = std.id 
+                          LEFT JOIN department AS d ON s.dept_id = d.id";
+
   public function __construct()
   {
     $db = new Database();
     $this->con = $db->con;
+    $this->crud = new Crud($this->con); 
 
   }
   //method to get all student
   public function getAllStudents($stdid)
   {
     if ($stdid > 0) {
-      $crud = new Crud($this->con);
-      $result= $crud->readAll(
-        "students AS s",
-        "s.id, s.rollno, s.fname, s.lname, std.standard_name,d.dept_name , s.created_at, s.updated_at",
-        "LEFT JOIN standards AS std ON s.standard = std.id LEFT JOIN  department AS d ON s.dept_id = d.id ",
+      $result= $this->crud->readAll(
+        $this->baseTable,
+        $this->baseFields,
+        $this->baseJoin,
         "s.status = 1 AND s.standard=$stdid"
       );
 
     } else {
-      $crud = new Crud($this->con);
-      $result= $crud->readAll(
-        "students AS s",
-        "s.id, s.rollno, s.fname, s.lname, std.standard_name,d.dept_name  ,s.created_at, s.updated_at",
-        "LEFT JOIN standards AS std ON s.standard = std.id LEFT JOIN  department AS d ON s.dept_id = d.id ",
+      $result= $this->crud->readAll(
+        $this->baseTable,
+        $this->baseFields,
+        $this->baseJoin,
         "s.status = 1"
       );
     }
@@ -41,14 +47,14 @@ class studentListCode
         return $data;
   }
   //method to  get single student
+  
   public function viewSingleStudent($id)
   {
-    $crud = new Crud($this->con);
-    $result = $crud->readSingle(
-      "students As s",
-      "s.id, s.rollno, s.fname, s.lname, s.standard, std.standard_name,s.dept_id,d.dept_name ,s.created_at, s.updated_at",
-      "LEFT JOIN standards AS std ON s.standard = std.id LEFT JOIN  department AS d ON s.dept_id = d.id ",
-      "s.status = 1 AND s.id=$id"
+    $result = $this->crud->readAll(
+      $this->baseTable,
+        $this->baseFields,
+        $this->baseJoin,
+        "s.id=$id"
     );
     if ($result->num_rows > 0) {
       return $result->fetch_assoc();  // return one row
@@ -59,8 +65,7 @@ class studentListCode
   // method for delete student 
   public function deleteStudent($id)
   {
-    $crud = new Crud($this->con);
-    $result = $crud->update(
+    $result = $this->crud->update(
       "students",
       "status='0'",
       "id=$id"
@@ -90,9 +95,7 @@ class studentListCode
           'message' => ' user not added! roll no alredy exist in this standard'
         ];
       } else {
-        // $aq = "INSERT INTO students (rollno,fname,lname,standard) VALUES ('$rollno','$fname','$lname','$standard')";
-        $crud = new Crud($this->con);
-        $result = $crud->create(
+        $result = $this->crud->create(
           "students",
           "rollno,fname,lname,standard,dept_id",
           "'$rollno','$fname','$lname','$standard','$department'"

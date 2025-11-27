@@ -26,20 +26,7 @@ class Crud
         $result = $this->con->query($query);
         
         return $result;
-    }
-    //  READ SINGLE function
-    public function readSingle($table, $columns = "*", $join = "", $where = "")
-    {
-        $query = "SELECT $columns FROM $table";
-        if (!empty($join)) {
-            $query .= " $join";
-        }
-        if (!empty($where)) {
-            $query .= " WHERE $where";
-        }
-        $result = $this->con->query($query);
-        return $result;
-    }
+    }  
     //  soft DELETE and update function 
     public function update($table,$sets = "", $where = "")
     {
